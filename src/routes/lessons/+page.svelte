@@ -83,7 +83,9 @@
                         </div>
 
                         <div class="flex flex-col flex-1 items-center">
-                            <Button class="bg-[#189282]">Join Meeting</Button>
+                            <a href="/meet">
+                                <Button class="bg-[#189282]">Join Meeting</Button>
+                            </a>
                             <div class="mt-1 mb-2 flex items-center justify-center gap-2 mt-3">
                                 <p class="">4.0</p>
                                 <div class="flex">
