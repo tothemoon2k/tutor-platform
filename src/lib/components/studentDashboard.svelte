@@ -1,4 +1,5 @@
 <script>
+    //@ts-nocheck
     import exampleLogo from "$lib/assets/example-logo.png";
     import * as Avatar from "$lib/components/shadcn/ui/avatar";
     import * as Select from "$lib/components/shadcn/ui/select";
@@ -6,6 +7,26 @@
     import { Label } from "$lib/components/shadcn/ui/label";
     import { getLocalTimeZone, today } from "@internationalized/date";
     import { Calendar } from "$lib/components/shadcn/ui/calendar/index";
+    import { collection, query, where, getDocs } from "firebase/firestore";
+    import { db } from "$lib/firebase";
+
+    const collectionRef = collection(db, "tutors");
+    let tutorCollection = [];
+
+    const getTutors = async () => {
+        try {
+            const querySnapshot = await getDocs(collectionRef);
+            querySnapshot.forEach((doc) => {
+                tutorCollection.push(doc.data());
+            });
+        } catch (error) {
+            console.error("Error getting documents: ", error);
+        }
+
+        tutorCollection = tutorCollection;
+    }
+
+    getTutors();
 
     let value = today(getLocalTimeZone());
 </script>
@@ -39,7 +60,7 @@
     </nav>
 
     <!--Booking Modal-->
-    <div class="flex justify-center items-center absolute w-screen h-screen bg-gray-600 bg-opacity-25">
+    <div class="hidden flex justify-center items-center absolute w-screen h-screen bg-gray-600 bg-opacity-25">
         <div class="flex flex-col bg-white w-1/4 pt-6 pb-10 rounded-2xl shadow-lg px-6">
             <h1 class="mb-8 text-2xl font-semibold">Book a lesson</h1>
 
@@ -55,10 +76,10 @@
                 </Select.Content>
             </Select.Root>
 
-              <Label class="mt-8 mb-3" for="email">Select a date</Label>
-              <Calendar bind:value class="rounded-md border" />
+            <Label class="mt-8 mb-3" for="email">Select a date</Label>
+            <Calendar bind:value class="rounded-md border" />
 
-              <Button class="mt-9 bg-[#189282]">Book a lesson</Button>
+            <Button class="mt-9 bg-[#189282]">Book a lesson</Button>
         </div>
     </div>
 
@@ -135,69 +156,39 @@
             </div>
 
             <div class="flex flex-col gap-7">
-                <div class="border-[#eef0f5] border rounded-xl py-8 px-8 flex">
-                    <div class="flex flex-col gap-2 mr-6">
-                        <img class="h-[70px] w-[70px] rounded-lg object-cover" src="https://media.cnn.com/api/v1/images/stellar/prod/230317092113-04-black-male-teachers-in-us.jpg?c=original" alt="">
-                        <p class="font-bold text-sm">32 <span class="font-normal text-gray-500">lessons</span></p>
-                    </div>
-
-                    <div class="flex flex-col w-3/5">
-                        <p class="font-semibold text-lg">Marquise Edwards</p>
-                        <ul class="flex gap-3 text-sm">
-                            <li>Chemistry</li>
-                            <li>Physics</li>
-                            <li>Biology</li>
-                        </ul>
-
-                        <p class="mt-1 text-sm text-[#7d8798]">Hi there! Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea alias quas accusamus quasi modi repellendus mollitia nulla a ad qui quisquam</p>
-                    </div>
-
-                    <div class="flex flex-col flex-1 items-center">
-                        <Button class="bg-[#189282]">Book a lesson</Button>
-                        <div class="mt-1 mb-2 flex items-center justify-center gap-2 mt-3">
-                            <p class="">4.0</p>
-                            <div class="flex">
-                                <img class="h-5 w-4.5" src="https://img.icons8.com/color/48/apple.png" alt="Apple">
-                                <img class="h-5 w-5" src="https://img.icons8.com/color/48/apple.png" alt="Apple">
-                                <img class="h-5 w-5" src="https://img.icons8.com/color/48/apple.png" alt="Apple">
-                                <img class="h-5 w-5" src="https://img.icons8.com/color/48/apple.png" alt="Apple">
-                            </div>
+                {#each tutorCollection as tutor}
+                    <div class="border-[#eef0f5] border rounded-xl py-8 px-8 flex">
+                        <div class="flex flex-col gap-2 mr-6">
+                            <img class="h-[70px] w-[70px] rounded-lg object-cover" src="https://media.cnn.com/api/v1/images/stellar/prod/230317092113-04-black-male-teachers-in-us.jpg?c=original" alt="">
+                            <p class="font-bold text-sm">{Math.floor(Math.random() * 40) + 1} <span class="font-normal text-gray-500">lessons</span></p>
                         </div>
-                        <p class="text-sm text-gray-400 underline">4 reviews</p>
-                    </div>
-                </div>
 
-                <div class="border-[#eef0f5] border rounded-xl py-8 px-8 flex">
-                    <div class="flex flex-col gap-2 mr-6">
-                        <img class="h-[70px] w-[70px] rounded-lg object-cover" src="https://media.cnn.com/api/v1/images/stellar/prod/230317092113-04-black-male-teachers-in-us.jpg?c=original" alt="">
-                        <p class="font-bold text-sm">32 <span class="font-normal text-gray-500">lessons</span></p>
-                    </div>
+                        <div class="flex flex-col w-3/5">
+                            <p class="font-semibold text-lg">{tutor.name}</p>
+                            <ul class="flex gap-3 text-sm">
+                                {#each tutor.selectedClasses as selectedClass}
+                                    <li>{selectedClass}</li>
+                                {/each}
+                            </ul>
 
-                    <div class="flex flex-col w-3/5">
-                        <p class="font-semibold text-lg">Marquise Edwards</p>
-                        <ul class="flex gap-3 text-sm">
-                            <li>Chemistry</li>
-                            <li>Physics</li>
-                            <li>Biology</li>
-                        </ul>
-
-                        <p class="mt-1 text-sm text-[#7d8798]">Hi there! Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea alias quas accusamus quasi modi repellendus mollitia nulla a ad qui quisquam</p>
-                    </div>
-
-                    <div class="flex flex-col flex-1 items-center">
-                        <Button class="bg-[#189282]">Book a lesson</Button>
-                        <div class="mt-1 mb-2 flex items-center justify-center gap-2 mt-3">
-                            <p class="">4.0</p>
-                            <div class="flex">
-                                <img class="h-5 w-4.5" src="https://img.icons8.com/color/48/apple.png" alt="Apple">
-                                <img class="h-5 w-5" src="https://img.icons8.com/color/48/apple.png" alt="Apple">
-                                <img class="h-5 w-5" src="https://img.icons8.com/color/48/apple.png" alt="Apple">
-                                <img class="h-5 w-5" src="https://img.icons8.com/color/48/apple.png" alt="Apple">
-                            </div>
+                            <p class="mt-1 text-sm text-[#7d8798]">{tutor.bio}</p>
                         </div>
-                        <p class="text-sm text-gray-400 underline">4 reviews</p>
+
+                        <div class="flex flex-col flex-1 items-center">
+                            <Button class="bg-[#189282]">Book a lesson</Button>
+                            <div class="mt-1 mb-2 flex items-center justify-center gap-2 mt-3">
+                                <p class="">4.0</p>
+                                <div class="flex">
+                                    <img class="h-5 w-4.5" src="https://img.icons8.com/color/48/apple.png" alt="Apple">
+                                    <img class="h-5 w-5" src="https://img.icons8.com/color/48/apple.png" alt="Apple">
+                                    <img class="h-5 w-5" src="https://img.icons8.com/color/48/apple.png" alt="Apple">
+                                    <img class="h-5 w-5" src="https://img.icons8.com/color/48/apple.png" alt="Apple">
+                                </div>
+                            </div>
+                            <p class="text-sm text-gray-400 underline">{Math.floor(Math.random() * 20) + 1} reviews</p>
+                        </div>
                     </div>
-                </div>
+                {/each}
             </div>
         </div>
     </div>
