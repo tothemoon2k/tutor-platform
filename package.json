@@ -25,6 +25,7 @@
 	"type": "module",
 	"dependencies": {
 		"clsx": "^2.1.1",
+		"firebase": "^10.12.0",
 		"tailwind-merge": "^2.3.0",
 		"tailwind-variants": "^0.2.1"
 	}

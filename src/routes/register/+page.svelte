@@ -8,7 +8,7 @@
 
     const handleLogin = async () => {
         try {
-            authHandlers.login(email, pass);
+            authHandlers.signup(email, pass);
         } catch (error) {
             console.log("There was an error:", error);
         }
@@ -24,7 +24,7 @@
         <div class="flex min-h-full flex-col px-6 justify-center lg:px-8">
             <div class="sm:mx-auto sm:w-full sm:max-w-sm">
               <!--<img class="mx-auto h-12 w-auto" src="" alt="Court Grabber Offical Logo">-->
-              <h2 class="mt-8 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">Welcome back!</h2>
+              <h2 class="mt-8 text-center text-3xl font-bold leading-9 tracking-tight text-gray-900">Register Today</h2>
               <p class="text-gray-400 mt-1 text-center mb-7 md:mb-9">Please enter your details</p> <!--Placeholder helper text-->
             </div>
           
@@ -50,7 +50,7 @@
                 </div>
           
                 <div>
-                  <button on:click={handleLogin} type="button" class="mt-10 flex w-full justify-center rounded-md btn-blue px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Log in</button>
+                  <button on:click={handleLogin} type="button" class="mt-10 flex w-full justify-center rounded-md btn-blue px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign Up</button>
                 </div>
               </form>
           
