@@ -133,7 +133,7 @@
 </script>
 
 <div class="w-screen h-screen flex flex-col items-center gap-6">
-    <div class="mb-8 flex w-full h-fit justify-around pt-20">
+    <div class="mb-8 flex flex-col lg:flex-row w-full h-fit justify-around pt-20">
         <video class="w-[500px] h-[400px] bg-black" bind:this={webcamSrc} autoplay playsinline></video>
         <video class="w-[500px] h-[400px] bg-black" bind:this={remoteSrc} autoplay playsinline></video>
     </div>

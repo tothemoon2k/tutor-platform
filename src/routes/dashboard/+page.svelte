@@ -1,5 +1,5 @@
 <script>
-    import StudentDashboard from "$lib/components/StudentDashboard.svelte";
+    import StudentDashboard from "$lib/components/studentDashboard.svelte";
 </script>
 
 <StudentDashboard/>
