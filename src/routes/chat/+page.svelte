@@ -2,12 +2,7 @@
     //@ts-nocheck
     import exampleLogo from "$lib/assets/example-logo.png";
     import * as Avatar from "$lib/components/shadcn/ui/avatar";
-    import * as Select from "$lib/components/shadcn/ui/select";
-    import { Button } from "$lib/components/shadcn/ui/button";
     import { Input } from "$lib/components/shadcn/ui/input";
-    import { Label } from "$lib/components/shadcn/ui/label";
-    import { getLocalTimeZone, today } from "@internationalized/date";
-    import { Calendar } from "$lib/components/shadcn/ui/calendar/index";
     import { collection, query, where, getDocs, updateDoc, doc, onSnapshot } from "firebase/firestore";
     import { db } from "$lib/firebase";
     import { authStore } from '../../store/store';
@@ -25,41 +20,41 @@
 
 
     authStore.subscribe(async (res) => {
-    storeData = res.data;
+        storeData = res.data;
 
-    if (res.data.userId) {
-        yourUserId = res.data.userId;
+        if (res.data.userId) {
+            yourUserId = res.data.userId;
 
-        const chatsRef = collection(db, "chats");
-        const q = query(chatsRef, where("users", "array-contains", yourUserId));
+            const chatsRef = collection(db, "chats");
+            const q = query(chatsRef, where("users", "array-contains", yourUserId));
 
-        const unsubscribe = onSnapshot(q, async (querySnapshot) => {
-            allChats = [];
+            const unsubscribe = onSnapshot(q, async (querySnapshot) => {
+                allChats = [];
 
-            querySnapshot.forEach(async (doc) => {
-                let data = doc.data();
+                querySnapshot.forEach(async (doc) => {
+                    let data = doc.data();
 
-                data.docId = doc.id;
+                    data.docId = doc.id;
 
-                console.log(data.users.filter((uid) => uid !== yourUserId)[0]);
+                    console.log(data.users.filter((uid) => uid !== yourUserId)[0]);
 
-                const chatsRef = collection(db, "users");
-                const q = query(chatsRef, where("userId", "==", data.users.filter((uid) => uid !== yourUserId)[0]));
+                    const chatsRef = collection(db, "users");
+                    const q = query(chatsRef, where("userId", "==", data.users.filter((uid) => uid !== yourUserId)[0]));
 
-                const unsubscribe = onSnapshot(q, (querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        data.otherUser = doc.data();
-                        console.log(doc.data());
+                    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            data.otherUser = doc.data();
+                            console.log(doc.data());
 
-                        allChats.push(data);
-                        allChats = allChats;
-                        messages = allChats[selectedChat].messages;
-                        otherUserId = allChats[selectedChat].otherUser.userId;
+                            allChats.push(data);
+                            allChats = allChats;
+                            messages = allChats[selectedChat].messages;
+                            otherUserId = allChats[selectedChat].otherUser.userId;
+                        });
                     });
                 });
             });
-        });
-    }
+        }
 });
 
     const otherUser = {
@@ -92,9 +87,11 @@
                 <img class="h-3.5" src="https://img.icons8.com/ios-filled/50/737373/paper.png" alt="">
                 <p class="text-sm font-medium text-gray-500">My Lessons</p>
             </li>
-            <li class="flex items-center gap-1.5">
-                <img class="h-5" src="https://img.icons8.com/ios-glyphs/50/737373/teacher.png" alt="">
-                <p class="text-sm font-medium text-gray-500">My Teachers</p>
+            <li class="">
+                <a class="flex items-center gap-1.5" href="/chat">
+                    <img class="h-5" src="https://img.icons8.com/ios-glyphs/50/737373/teacher.png" alt="">
+                    <p class="text-sm font-medium text-gray-500">My Teachers</p>
+                </a>
             </li>
             <li class="flex items-center gap-2">
                 <img class="h-5" src="https://img.icons8.com/ios/50/737373/search--v1.png" alt="">
