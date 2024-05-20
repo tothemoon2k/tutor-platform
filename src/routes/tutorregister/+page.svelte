@@ -44,7 +44,7 @@
 
       if(step === 5){
         await authHandlers.tutorSignup(name, email, pass, selectedClasses, bio, transcriptFiles);
-        //window.location.href = "/dashboard";
+        window.location.href = "/dashboard";
       }
 
       step++;
@@ -395,7 +395,7 @@
                   <div class="flex flex-col items-center">
                     <div class="bg-gray-500 h-[200px] w-[200px] rounded-full">
                       {#if profilePicBase64}
-                        <img class="w-full h-full rounded-full" src={`data:image/png;base64,${profilePicBase64}`} alt="Profile Pic">
+                        <img class="w-full h-full rounded-full object-cover" src={`data:image/png;base64,${profilePicBase64}`} alt="Profile Pic">
                       {/if}
                     </div>
 

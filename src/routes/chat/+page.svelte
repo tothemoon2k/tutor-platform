@@ -159,7 +159,7 @@
                         </Avatar.Root>
 
                         <div class="flex flex-col gap-4">
-                            <p class="bg-gray-100 px-6 py-3 rounded-2xl">{message.content}</p>
+                            <p class="{message.user === yourUserId ? "bg-[#4e42ec] text-white" : "bg-gray-100"} px-6 py-3 rounded-2xl">{message.content}</p>
                         </div>
                     </div>
                 {/each}
